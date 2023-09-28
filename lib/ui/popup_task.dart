@@ -79,9 +79,6 @@ class _PopUpTaskState extends State<PopUpTask> {
             const SizedBox(
               height: 10.0,
             ),
-            const SizedBox(
-              height: 10.0,
-            ),
             Container(
               decoration: BoxDecoration(
                 border: Border.all(
@@ -303,17 +300,26 @@ class _PopUpTaskState extends State<PopUpTask> {
                 },
                 onCanceled: () {
                   // Reset items to show all records when the menu is closed
-                  if (!isMenuOpen) {
+                  if (isMenuOpen) {
                     setState(() {
                       searchTextFieldController.text = "";
                       items = dataList;
+                      isMenuOpen = false;
                     });
                   }
+                },
+                onOpened: () {
+                  setState(() {
+                    isMenuOpen = true;
+                  });
                 },
                 onSelected: _handleMenuItemSelected,
                 child: Container(
                   decoration: BoxDecoration(
-                    border: Border.all(),
+                    border: Border.all(
+                        color: isMenuOpen
+                            ? Theme.of(context).primaryColor
+                            : Colors.black),
                     borderRadius: BorderRadius.circular(4.0),
                   ),
                   padding: const EdgeInsets.all(10.0),
@@ -406,7 +412,6 @@ class _PopUpTaskState extends State<PopUpTask> {
             });
             Navigator.of(context).pop();
           },
-
           onDoubleTap: () {
             // Close the popup menu programmatically
             Navigator.of(context).pop();
@@ -434,21 +439,24 @@ class _PopUpTaskState extends State<PopUpTask> {
   }
 
   void setControllerText(Map<String, dynamic> item) {
-    searchTextFieldController.text = "";
-    searchIndexList.clear();
+    // searchTextFieldController.text = "";
+    // searchIndexList.clear();
     // Reset the filter data
-    items = dataList;
+    // items = dataList;
     myTextController.text = "${item["name"]}";
     selectedIndex = item["id"];
   }
 
   void _handleMenuItemSelected(String value) {
-    searchTextFieldController.text = "";
+    // searchTextFieldController.text = "";
     final dynamic popupState = _popupMenuKey.currentState;
-    // Set isMenuOpen to true when the menu is open
-    isMenuOpen = true;
-    // Reset the filter data
-    items = dataList;
+
+    setState(() {
+      // Set isMenuOpen to true when the menu is open
+      isMenuOpen = true;
+      // Reset the filter data
+      // items = dataList;
+    });
     popupState.showButtonMenu();
   }
 }
