@@ -238,6 +238,7 @@ class _PopUpTaskState extends State<PopUpTask> {
                               * */
                             Container(
                               margin: const EdgeInsets.only(top: 6.0),
+                              color: Theme.of(context).primaryColor,
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment:
